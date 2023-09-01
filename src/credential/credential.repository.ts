@@ -13,16 +13,16 @@ export class CredentialRepository {
         })
     }
 
-    findAll() {
-        return `This action returns all credential`;
+    findAll(userId: number) {
+        return this.prisma.credential.findMany({ where: { userId } });
     }
 
     findOne(id: number) {
-        return `This action returns a #${id} credential`;
+        return this.prisma.credential.findUnique({ where: { id } })
     }
 
     remove(id: number) {
-        return `This action removes a #${id} credential`;
+        return this.prisma.credential.delete({ where: { id } })
     }
     findTitle(title: string, userId: number) {
         return this.prisma.credential.findFirst({ where: { title, userId } })

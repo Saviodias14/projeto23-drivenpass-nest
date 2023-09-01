@@ -64,8 +64,8 @@ model Card {
   id         Int       @id @default(autoincrement())
   userId     Int
   title      String
-  number     Int
-  cvv        Int
+  number     String
+  cvv        String 
   name       String
   expiration DateTime
   password   String

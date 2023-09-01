@@ -1,40 +1,44 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCredentialDto } from './dto/create-credential.dto';
-import { UpdateCredentialDto } from './dto/update-credential.dto';
 import { CredentialRepository } from './credential.repository';
 import { User } from '@prisma/client';
-import Cryptr from 'cryptr'
+import Cryptr from 'cryptr';
 
 @Injectable()
 export class CredentialService {
+  private cryptr: Cryptr
   constructor(
     private readonly credentialRpository: CredentialRepository
-  ) { }
+  ) { 
+    const Cryptr = require('cryptr')
+    this.cryptr = new Cryptr(process.env.CRYPTR_SECRET)
+  }
 
   async create(createCredentialDto: CreateCredentialDto, user: User) {
     const findTitle = await this.credentialRpository.findTitle(createCredentialDto.title, user.id)
     if (findTitle) throw new ConflictException('This title already exist!')
-
-    const cryptr = new Cryptr(createCredentialDto.title)
-    console.log(cryptr)
-    const cryptoPassword = cryptr.encrypt(createCredentialDto.password)
-    createCredentialDto.password = cryptoPassword
+    //FIXME:
+    
+    createCredentialDto.password = this.cryptr.encrypt(createCredentialDto.password)
     return await this.credentialRpository.create(createCredentialDto, user.id)
   }
 
-  findAll() {
-    return `This action returns all credential`;
+  async findAll(user:User) {
+    return await this.credentialRpository.findAll(user.id);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} credential`;
+  async findOne(id: number, user: User) {
+    const result = await this.credentialRpository.findOne(id)
+    if(!result) throw new NotFoundException('Credential not found!')
+    if(result.userId!==user.id) throw new ForbiddenException('This credential is not yours!')
+    result.password = this.cryptr.decrypt(result.password)
+    return result
   }
 
-  update(id: number, updateCredentialDto: UpdateCredentialDto) {
-    return `This action updates a #${id} credential`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} credential`;
+  async remove(id: number, user: User) {
+    const credential = await this.credentialRpository.findOne(id)
+    if(!credential) throw new NotFoundException('Credential not found!')
+    if(credential.userId!==user.id) throw new ForbiddenException('This credential is not yours!')
+    return await this.credentialRpository.remove(id)
   }
 }

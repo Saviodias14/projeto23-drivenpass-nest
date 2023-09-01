@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, BadRequestException } from '@nestjs/common';
 import { CredentialService } from './credential.service';
 import { CreateCredentialDto } from './dto/create-credential.dto';
-import { UpdateCredentialDto } from './dto/update-credential.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { User } from 'src/decorators/user.decorator';
 import { User as UserPrisma } from '@prisma/client';
@@ -17,22 +16,21 @@ export class CredentialController {
   }
 
   @Get()
-  findAll() {
-    return this.credentialService.findAll();
+  findAll(@User() user:UserPrisma) {
+    return this.credentialService.findAll(user);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.credentialService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCredentialDto: UpdateCredentialDto) {
-    return this.credentialService.update(+id, updateCredentialDto);
+  findOne(@Param('id') id: string, @User() user:UserPrisma) {
+    const newId = parseInt(id)
+    if(isNaN(newId)||newId<0)throw new BadRequestException('Id must be a positive number!')
+    return this.credentialService.findOne(newId, user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.credentialService.remove(+id);
+  remove(@Param('id') id: string, @User() user:UserPrisma) {
+    const newId = parseInt(id)
+    if(isNaN(newId)||newId<0)throw new BadRequestException('Id must be a positive number!')
+    return this.credentialService.remove(newId, user);
   }
 }
