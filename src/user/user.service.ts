@@ -18,4 +18,8 @@ export class UserService {
     async getUserByEmail(email: string){
         return await this.userRepository.getUserByEmail(email)
     }
+
+    async getUserById(id: number){
+        return await this.userRepository.getUserById(id)
+    }
 }

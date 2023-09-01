@@ -1,0 +1,17 @@
+import { IsNotEmpty, IsString, IsUrl } from "class-validator"
+
+export class CreateCredentialDto {
+    @IsUrl()
+    @IsNotEmpty()
+    url: string
+    @IsString()
+    @IsNotEmpty()
+    title: string
+    @IsString()
+    @IsNotEmpty()
+    username: string
+    @IsString()
+    @IsNotEmpty()
+    password: string
+
+}

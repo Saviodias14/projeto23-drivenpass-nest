@@ -17,4 +17,8 @@ export class UserRepository {
     getUserByEmail(email: string) {
         return this.prisma.user.findUnique({ where: { email } })
     }
+
+    getUserById(id: number) {
+        return this.prisma.user.findUnique({ where: { id } })
+    }
 }

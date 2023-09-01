@@ -27,7 +27,7 @@ export class AuthService {
         const user = await this.usersService.getUserByEmail(email)
         if (!user) throw new UnauthorizedException('Email or password not valid!')
 
-        const valid = bcrypt.compare(password, user.password)
+        const valid = await bcrypt.compare(password, user.password)
         if (!valid) throw new UnauthorizedException('Email or password not valid!')
         return this.createToken(user)
     }
@@ -41,5 +41,12 @@ export class AuthService {
           });
       
           return { token }
+    }
+
+    checkToken(token: string){
+        console.log(token)
+        const data = this.jwtService.verify(token)
+        
+        return data
     }
 }
