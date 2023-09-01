@@ -1,4 +1,12 @@
 import { Module } from '@nestjs/common';
+import { EraseController } from './erase.controller';
+import { EraseService } from './erase.service';
+import { EraseRepository } from './erase.repository';
+import { UserModule } from 'src/user/user.module';
 
-@Module({})
+@Module({
+  imports: [UserModule],
+  controllers: [EraseController],
+  providers: [EraseService, EraseRepository]
+})
 export class EraseModule {}
