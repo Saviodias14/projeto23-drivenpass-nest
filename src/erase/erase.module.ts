@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { EraseController } from './erase.controller';
 import { EraseService } from './erase.service';
 import { EraseRepository } from './erase.repository';
-import { UserModule } from 'src/user/user.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [UserModule],

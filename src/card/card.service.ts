@@ -1,5 +1,4 @@
 import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { User } from '@prisma/client';
 import Cryptr from 'cryptr';
 import { CardRepository } from './card.repository';
 import { CreateCardDto } from './dto/createCardDto';

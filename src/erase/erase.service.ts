@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/co
 import { EraseRepository } from './erase.repository';
 import { DeleteDto } from './dto/deleteDto';
 import * as bcrypt from 'bcrypt'
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class EraseService {
