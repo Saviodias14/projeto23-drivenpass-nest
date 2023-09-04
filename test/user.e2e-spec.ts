@@ -60,8 +60,7 @@ describe('AppController (e2e)', () => {
   it('auth/sign-in (POST) - Should return 200', async()=>{
     const email = faker.internet.email()
     const password = faker.internet.password({length:12, prefix:'@1Aa'})
-    const signUp = await request(app.getHttpServer()).post('/auth/sign-up').send({email, password})
-    console.log(signUp)
+    const signUp = await new SignupFactory(prisma).createSignup(email, password) 
     return request(app.getHttpServer())
     .post('/auth/sign-in')
     .send({email, password})

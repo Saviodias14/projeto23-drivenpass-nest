@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import * as bcrypt from 'bcrypt'
 
 export class SignupFactory {
   private prisma: PrismaClient;
@@ -11,7 +12,7 @@ export class SignupFactory {
     return this.prisma.user.create({
       data: {
         email,
-        password
+        password: bcrypt.hashSync(password, 10)
       }
     })
   }
