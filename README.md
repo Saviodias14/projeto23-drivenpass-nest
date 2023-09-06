@@ -1,6 +1,34 @@
-# Description
+# Drivenpass
 
 This API was created for those who frequently forget passwords, card details, or need a secure space for storing notes. Drivenpass ensures your important data is stored securely and easily accessible. You just can't forget your mainly password to login Drivenpass :joy:. 
+
+<p align="left"><a href="https://divenpass.onrender.com/" target="_blank">Here</a> is the deploy of this aplication</p>
+
+## About
+
+Drivenpass is an aplication where you can store lots of kind of data. This is a great idea, because nowadays we have lots of hard passwords and importants datas to remember, and we always forgot. Here is some features you can find in this aplication:
+
+- Sign-up
+- Login
+- Add safe notes
+- Add credentials (yous logins)
+- Add card data
+- Delete informations
+- Delete account 
+
+All the routes that envolves yous datas are crypted and must be autheticated with an user token. We use JWT Authentication to protect the access to your datas.
+<p align="left">Click <a href="https://divenpass.onrender.com/api" target="_blank">here</a> to see all routes.</p>
+
+## Technologies
+The following tools and frameworks were used in the construction of the project:
+
+- Prisma ORM
+- Nest.js
+- PostgreSQL
+- JWT
+- Swagger
+- Cryptr and Bcrypt
+- TypeScript
 
 ## Installation
 
@@ -10,6 +38,9 @@ $ npm install
 
 ## Running the app
 
+1. Crie um `.env` e um `.env.test` to add the Enviroment Variables `DATABASE_URL`,  `JWT_SECRET` and `CRYPTR_SECRET`. The secrets can be any string and the database must be a postgreSQL url.
+2. Run `npm run prisma:prod` to create the database.
+3. Choose how to run the project:
 ```bash
 # development
 $ npm run start
@@ -33,42 +64,3 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
-
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
