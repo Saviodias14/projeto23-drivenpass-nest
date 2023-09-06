@@ -32,21 +32,20 @@ export class AuthService {
         return this.createToken(user)
     }
 
-    createToken(user: User){
+    createToken(user: User) {
         const { id, email } = user
 
         const token = this.jwtService.sign({ email }, {
             expiresIn: this.EXPIRATION_TIME,
             subject: String(id)
-          });
-      
-          return { token }
+        });
+
+        return { token }
     }
 
-    checkToken(token: string){
-        console.log(token)
+    checkToken(token: string) {
         const data = this.jwtService.verify(token)
-        
+
         return data
     }
 }

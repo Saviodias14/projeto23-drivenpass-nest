@@ -23,7 +23,12 @@ export class CardService {
     }
 
     async findAll(userId: number) {
-        return await this.cardRpository.findAll(userId);
+        const result =  await this.cardRpository.findAll(userId);
+        result.map(e=>{
+            e.password = this.cryptr.decrypt(e.password)
+            e.cvv = this.cryptr.decrypt(e.cvv)
+        })
+        return result
     }
 
     async findOne(id: number, userId: number) {

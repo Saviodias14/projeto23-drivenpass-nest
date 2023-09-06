@@ -107,12 +107,18 @@ describe('AppController (e2e)', () => {
         const login = await new SignInFactory(prisma, jwtService).getToken(email, password)
         const customHeaders = { Authorization: `Bearer ${login.token}` }
         for (let i = 0; i < 5; i++) {
-            await new PostCard(prisma, cryptr).postCard(user.id, faker.date.future(), faker.word.noun(),
-                faker.number.int({ min: 1000000000000000 }).toString(), faker.number.int({ min: 100, max: 999 }).toString(),
-                faker.person.fullName(), faker.internet.password(), 'CREDIT')
+            const expiration = faker.date.future()
+            const title = faker.word.noun()
+            const number = faker.number.int({ min: 1000000000000000 }).toString()
+            const cvv = faker.number.int({ min: 100, max: 999 }).toString()
+            const name = faker.person.fullName()
+            const cardPassword = faker.internet.password()
+            await new PostCard(prisma, cryptr).postCard(user.id, expiration, title,
+                number, cvv, name, cardPassword, 'CREDIT')
         }
 
         let response = await request(app.getHttpServer()).get('/cards').set(customHeaders)
+        
         expect(response.statusCode).toBe(200);
         expect(response.body).toHaveLength(5)
     });
@@ -123,26 +129,30 @@ describe('AppController (e2e)', () => {
         const user = await new SignupFactory(prisma).createSignup(email, password)
         const login = await new SignInFactory(prisma, jwtService).getToken(email, password)
         const customHeaders = { Authorization: `Bearer ${login.token}` }
+        const expiration = faker.date.future()
+        const title = faker.word.noun()
+        const number = faker.number.int({ min: 1000000000000000 }).toString()
+        const cvv = faker.number.int({ min: 100, max: 999 }).toString()
+        const name = faker.person.fullName()
+        const cardPassword = faker.internet.password()
 
+        const cardPostCard = await new PostCard(prisma, cryptr).postCard(user.id, expiration, title,
+            number, cvv, name, cardPassword, 'CREDIT')
 
-        const cardPostCard = await new PostCard(prisma, cryptr).postCard(user.id, faker.date.future(), faker.word.noun(),
-            faker.number.int({ min: 1000000000000000 }).toString(), faker.number.int({ min: 100, max: 999 }).toString(),
-            faker.person.fullName(), faker.internet.password(), 'CREDIT')
-
-        let response = await request(app.getHttpServer()).get('/cards/' + cardPostCard.id).set('Authorization', `Bearer ${login.token}`)
+        let response = await request(app.getHttpServer()).get('/cards/' + cardPostCard.id).set(customHeaders)
 
         expect(response.statusCode).toBe(200);
         expect(response.body).toEqual({
             id: cardPostCard.id,
             userId: user.id,
-            title: cardPostCard.title,
-            number: cardPostCard.number,
-            cvv: expect.any(String),
-            name: cardPostCard.name,
-            expiration: expect.any(Date),
-            password: expect.any(String),
+            title,
+            number,
+            cvv,
+            name,
+            expiration: (new Date(expiration)).toISOString(),
+            password: cardPassword,
             virtual: false,
-            type: cardPostCard.type
+            type: 'CREDIT'
         })
     });
 

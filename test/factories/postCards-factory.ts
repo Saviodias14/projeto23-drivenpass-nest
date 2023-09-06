@@ -7,7 +7,6 @@ export class PostCard {
 
     constructor(prisma: PrismaClient, cryptr: Cryptr) {
         this.prisma = prisma;
-        const Cryptr = require('cryptr')
         this.cryptr = cryptr
     }
 
