@@ -2,6 +2,7 @@ import { ConflictException, ForbiddenException, Injectable, NotFoundException } 
 import Cryptr from 'cryptr';
 import { CardRepository } from './card.repository';
 import { CreateCardDto } from './dto/createCardDto';
+import dayjs from 'dayjs';
 
 @Injectable()
 export class CardService {
@@ -19,7 +20,18 @@ export class CardService {
 
         createCardDto.password = this.cryptr.encrypt(createCardDto.password)
         createCardDto.cvv = this.cryptr.encrypt(createCardDto.cvv.toString())
-        return await this.cardRpository.create(createCardDto, userId)
+        const [month, year] = createCardDto.expiration.split('/')
+        let day:string
+        if([1, 3, 5, 7, 8, 10, 12].includes(parseInt(month))){
+            day = '31'
+        }else if(parseInt(month)===2){
+            day = '28'
+        }else{
+            day = '30'
+        }
+        const fullDate = `${day}/${month}/20${year}`
+        const newExpiration = new Date(dayjs(fullDate, 'DD/MM/YYYY').format('YYYY-MM-DD'));
+        return await this.cardRpository.create(createCardDto, newExpiration, userId)
     }
 
     async findAll(userId: number) {

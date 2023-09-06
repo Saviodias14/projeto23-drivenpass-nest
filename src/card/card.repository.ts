@@ -3,12 +3,10 @@ import { PrismaService } from "../prisma/prisma.service";
 import { CreateCardDto } from "./dto/createCardDto";
 
 @Injectable()
-export class CardRepository{
+export class CardRepository {
     constructor(private readonly prisma: PrismaService) { }
 
-    create(data: CreateCardDto, userId: number) {
-        let { expiration } = data
-        expiration = new Date(expiration)
+    create(data: CreateCardDto, expiration: Date, userId: number) {
         return this.prisma.card.create({
             data: { ...data, userId, expiration }
         })
