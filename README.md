@@ -38,7 +38,7 @@ $ npm install
 
 ## Running the app
 
-1. Crie um `.env` e um `.env.test` to add the Enviroment Variables `DATABASE_URL`,  `JWT_SECRET` and `CRYPTR_SECRET`. The secrets can be any string and the database must be a postgreSQL url.
+1. Make a `.env` and a `.env.test` to add the Enviroment Variables `DATABASE_URL`,  `JWT_SECRET` and `CRYPTR_SECRET`. The secrets can be any string and the database must be a postgreSQL url.
 2. Run `npm run prisma:prod` to create the database.
 3. Choose how to run the project:
 ```bash
@@ -55,9 +55,6 @@ $ npm run start:prod
 ## Test
 
 ```bash
-# unit tests
-$ npm run test
-
 # e2e tests
 $ npm run test:e2e
 
